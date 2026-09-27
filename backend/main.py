@@ -1,8 +1,14 @@
 from fastapi import FastAPI
 
+from schemas.response import APIResponse
+
+
 app = FastAPI()
 
 
-@app.get("/")
+@app.get("/", response_model=APIResponse[dict])
 async def root():
-    return {"message": "Backend is alive 🔥"}
+    return APIResponse(
+        success=True,
+        data={"message": "Backend is alive 🔥"},
+    )
