@@ -1,9 +1,12 @@
 import uuid
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from sqlalchemy import Boolean, ForeignKey, String, Text, text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+if TYPE_CHECKING:
+    from models.experience import Experience
 
 try:
     from core.database import Base
@@ -61,4 +64,10 @@ class BusinessProfile(Base):
     user: Mapped["User"] = relationship(
         "User",
         back_populates="business_profile",
+    )
+
+    experiences: Mapped[list["Experience"]] = relationship(
+        "Experience",
+        back_populates="business_profile",
+        cascade="all, delete-orphan",
     )
