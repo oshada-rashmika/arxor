@@ -1,10 +1,14 @@
 import enum
 import uuid
 from datetime import datetime
+from typing import TYPE_CHECKING, Optional
 
 from sqlalchemy import DateTime, String, func
 from sqlalchemy.dialects.postgresql import ENUM, UUID
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+if TYPE_CHECKING:
+    from models.customer_profile import CustomerProfile
 
 try:
     from core.database import Base
@@ -56,4 +60,11 @@ class User(Base):
         server_default=func.now(),
         onupdate=func.now(),
         nullable=False,
+    )
+
+    customer_profile: Mapped[Optional["CustomerProfile"]] = relationship(
+        "CustomerProfile",
+        back_populates="user",
+        uselist=False,
+        cascade="all, delete-orphan",
     )
