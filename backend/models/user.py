@@ -8,6 +8,7 @@ from sqlalchemy.dialects.postgresql import ENUM, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
+    from models.business_profile import BusinessProfile
     from models.customer_profile import CustomerProfile
 
 try:
@@ -64,6 +65,13 @@ class User(Base):
 
     customer_profile: Mapped[Optional["CustomerProfile"]] = relationship(
         "CustomerProfile",
+        back_populates="user",
+        uselist=False,
+        cascade="all, delete-orphan",
+    )
+
+    business_profile: Mapped[Optional["BusinessProfile"]] = relationship(
+        "BusinessProfile",
         back_populates="user",
         uselist=False,
         cascade="all, delete-orphan",
