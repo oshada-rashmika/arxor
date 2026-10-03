@@ -3,7 +3,16 @@ from decimal import Decimal
 from typing import Any, Optional
 
 from geoalchemy2 import Geometry
-from sqlalchemy import Boolean, ForeignKey, Integer, Numeric, String, Text, text
+from sqlalchemy import (
+    Boolean,
+    ForeignKey,
+    Index,
+    Integer,
+    Numeric,
+    String,
+    Text,
+    text,
+)
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -40,7 +49,7 @@ class Experience(Base):
         nullable=True,
     )
     location: Mapped[Any] = mapped_column(
-        Geometry(geometry_type="POINT", srid=4326, spatial_index=True),
+        Geometry(geometry_type="POINT", srid=4326, spatial_index=False),
         nullable=False,
     )
     price: Mapped[Decimal] = mapped_column(
@@ -65,4 +74,12 @@ class Experience(Base):
     business_profile: Mapped["BusinessProfile"] = relationship(
         "BusinessProfile",
         back_populates="experiences",
+    )
+
+    __table_args__ = (
+        Index(
+            "ix_experiences_location_gist",
+            "location",
+            postgresql_using="gist",
+        ),
     )
