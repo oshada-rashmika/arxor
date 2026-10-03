@@ -22,6 +22,12 @@ if config.config_file_name is not None:
 
 # Model's MetaData object for 'autogenerate' support
 from core.database import Base
+
+try:
+    import models  # noqa: F401
+except ImportError:
+    import backend.models as models  # noqa: F401
+
 target_metadata = Base.metadata
 
 # Retrieve database URL from settings or environment variables
