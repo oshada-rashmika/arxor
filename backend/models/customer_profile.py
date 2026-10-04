@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
     from models.booking import Booking
+    from models.review import Review
 
 try:
     from core.database import Base
@@ -58,5 +59,9 @@ class CustomerProfile(Base):
 
     bookings: Mapped[list["Booking"]] = relationship(
         "Booking",
+        back_populates="customer",
+    )
+    reviews: Mapped[list["Review"]] = relationship(
+        "Review",
         back_populates="customer",
     )
