@@ -1,10 +1,13 @@
 import uuid
 from datetime import datetime
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from sqlalchemy import DateTime, ForeignKey, String
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+if TYPE_CHECKING:
+    from models.booking import Booking
 
 try:
     from core.database import Base
@@ -51,4 +54,9 @@ class CustomerProfile(Base):
     user: Mapped["User"] = relationship(
         "User",
         back_populates="customer_profile",
+    )
+
+    bookings: Mapped[list["Booking"]] = relationship(
+        "Booking",
+        back_populates="customer",
     )

@@ -1,6 +1,6 @@
 import uuid
 from decimal import Decimal
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from geoalchemy2 import Geometry
 from sqlalchemy import (
@@ -15,6 +15,9 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+if TYPE_CHECKING:
+    from models.booking import Booking
 
 try:
     from core.database import Base
@@ -74,6 +77,11 @@ class Experience(Base):
     business_profile: Mapped["BusinessProfile"] = relationship(
         "BusinessProfile",
         back_populates="experiences",
+    )
+
+    bookings: Mapped[list["Booking"]] = relationship(
+        "Booking",
+        back_populates="experience",
     )
 
     __table_args__ = (
