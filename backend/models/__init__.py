@@ -7,6 +7,7 @@ try:
         payment_status_enum,
     )
     from models.business_profile import BusinessProfile
+    from models.business_reply import BusinessReply
     from models.customer_profile import CustomerProfile
     from models.experience import Experience
     from models.review import Review
@@ -20,6 +21,7 @@ except ImportError:
         payment_status_enum,
     )
     from backend.models.business_profile import BusinessProfile
+    from backend.models.business_reply import BusinessReply
     from backend.models.customer_profile import CustomerProfile
     from backend.models.experience import Experience
     from backend.models.review import Review
@@ -38,4 +40,5 @@ __all__ = [
     "booking_status_enum",
     "payment_status_enum",
     "Review",
+    "BusinessReply",
 ]
