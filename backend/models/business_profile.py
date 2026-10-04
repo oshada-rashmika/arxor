@@ -6,6 +6,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
+    from models.business_reply import BusinessReply
     from models.experience import Experience
 
 try:
@@ -70,4 +71,8 @@ class BusinessProfile(Base):
         "Experience",
         back_populates="business_profile",
         cascade="all, delete-orphan",
+    )
+    business_replies: Mapped[list["BusinessReply"]] = relationship(
+        "BusinessReply",
+        back_populates="business_profile",
     )

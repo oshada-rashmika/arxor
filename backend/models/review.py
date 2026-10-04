@@ -7,6 +7,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
+    from models.business_reply import BusinessReply
     from models.customer_profile import CustomerProfile
     from models.experience import Experience
 
@@ -59,6 +60,11 @@ class Review(Base):
     customer: Mapped["CustomerProfile"] = relationship(
         "CustomerProfile",
         back_populates="reviews",
+    )
+    business_reply: Mapped[Optional["BusinessReply"]] = relationship(
+        "BusinessReply",
+        back_populates="review",
+        uselist=False,
     )
 
     __table_args__ = (
